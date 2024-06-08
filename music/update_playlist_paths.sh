@@ -1,12 +1,12 @@
 #!/bin/bash
-playlist_files=$(find . -type f -name "*.m3u")
+usb_dir="$1"
+playlist_dir="Playlists"
+playlist_files=$(find $usb_dir/$playlist_dir -maxdepth 1 -type f -name '*.m3u')
 
 og_stem="$HOME/Music/"
 new_stem="../"
-playlist_dir="Playlists"
 
-shopt -s globstar
-for playlist in **/*.m3u
+while IFS= read -r playlist
 do
 	sed -i "s|$og_stem|$new_stem|g" "$playlist"
-done
+done <<< "$playlist_files"
